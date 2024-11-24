@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chasing "NO" Button</title>
+    <title>Interactive Buttons</title>
     <style>
         body {
             display: flex;
@@ -17,9 +17,12 @@
 
         .container {
             text-align: center;
+            width: 90%;
+            max-width: 600px;
         }
 
         h1 {
+            font-size: 1.5rem;
             margin-bottom: 30px;
         }
 
@@ -27,12 +30,14 @@
             padding: 10px 20px;
             font-size: 16px;
             margin: 10px;
+            font-weight: bold;
             border: 1px solid #ccc;
             border-radius: 5px;
             cursor: pointer;
         }
 
         #yes {
+            
             background-color: #4CAF50;
             color: white;
         }
@@ -44,6 +49,8 @@
         #no {
             background-color: #f44336;
             color: white;
+            position: absolute;
+          
         }
 
         #no:hover {
@@ -53,30 +60,38 @@
 </head>
 <body>
     <div class="container">
-        <h1>Do you ever love me?</h1>
-        <a href="iknow.html"><button id="yes">YES</button></a>
+        <h1> Do you ever love me?</h1>
+        <button id="yes">YES</button>
         <button id="no">NO</button>
     </div>
 
     <script>
         const noButton = document.getElementById("no");
+        const container = document.querySelector(".container");
 
         noButton.addEventListener("mouseenter", () => {
-            // Get the window dimensions
-            const windowWidth = window.innerWidth;
-            const windowHeight = window.innerHeight;
+            const containerRect = container.getBoundingClientRect();
+            const buttonWidth = noButton.offsetWidth;
+            const buttonHeight = noButton.offsetHeight;
 
-            // Get random new position for the button
-            const randomX = Math.random() * (windowWidth - noButton.offsetWidth);
-            const randomY = Math.random() * (windowHeight - noButton.offsetHeight);
+            const maxX = containerRect.width - buttonWidth;
+            const maxY = containerRect.height - buttonHeight;
 
-            // Apply new position
-            noButton.style.position = "absolute";
+            const randomX = Math.random() * maxX + containerRect.left;
+            const randomY = Math.random() * maxY + containerRect.top;
+
             noButton.style.left = `${randomX}px`;
             noButton.style.top = `${randomY}px`;
         });
 
-       
+        document.getElementById("yes").addEventListener("click", () => {
+            window.location.href = "yes.html";
+        });
+
+        window.addEventListener("resize", () => {
+            noButton.style.left = "auto";
+            noButton.style.top = "auto";
+        });
     </script>
 </body>
 </html>
